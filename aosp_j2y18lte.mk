@@ -17,7 +17,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit some common DU stuff
-$(call inherit-product, vendor/du/config/common_full_phone.mk)
+$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
 
 # Inherit from j4corelte device
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
@@ -28,7 +28,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 PRODUCT_BRAND := samsung
 PRODUCT_DEVICE := j2y18lte
 PRODUCT_MANUFACTURER := samsung
-PRODUCT_NAME := du_j2y18lte
+PRODUCT_NAME := aosp_j2y18lte
 PRODUCT_MODEL := Galaxy J2 Pro
 
 PRODUCT_GMS_CLIENTID_BASE := android-samsung
@@ -39,6 +39,3 @@ PRODUCT_BUILD_PROP_OVERRIDES += PRIVATE_BUILD_DESC="j2y18ltejx-user 7.1.1 NMF26X
 # Set BUILD_FINGERPRINT variable to be picked up by both system and vendor build.prop
 BUILD_FINGERPRINT := "samsung/j2y18ltejx/j2y18lte:7.1.1/NMF26X/J250FXXU2ASK1:user/release-keys"
 
-# Maintainer
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.corvus.maintainer=PsychicGirl
