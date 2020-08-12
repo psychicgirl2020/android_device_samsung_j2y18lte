@@ -14,4 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_j2y18lte.mk
+    $(LOCAL_DIR)/havoc_j2y18lte.mk
+
+COMMON_LUNCH_CHOICES := \
+    havoc_j2y18lte-user \
+    havoc_j2y18lte-userdebug \
+    havoc_j2y18lte-eng \
