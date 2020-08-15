@@ -14,17 +14,16 @@
 # limitations under the License.
 #
 
-$(call inherit-product, device/xiaomi/riva/full_riva.mk)
+$(call inherit-product, device/samsung/j2y18lte/full_j2y18lte.mk)
 
 # Inherit some common LineageOS stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
-PRODUCT_NAME := lineage_riva
-BOARD_VENDOR := Xiaomi
+PRODUCT_NAME := lineage_j2y18lte
+BOARD_VENDOR := Samsung
 
-PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
+PRODUCT_GMS_CLIENTID_BASE := android-samsung
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT=Xiaomi/riva/riva:7.1.2/N2G47H/V9.2.1.0.NCKMIEK:user/release-keys \
-PRIVATE_BUILD_DESC="riva-user 7.1.2 N2G47H V9.2.1.0.NCKMIEK release-keys"
-
+    BUILD_FINGERPRINT=samsung/j2y18ltejx/j2y18lte:7.1.1/NMF26X/J250FXXU2ASK1:user/release-keys \
+PRIVATE_BUILD_DESC="j2y18ltejx-user 7.1.1 NMF26X J250FXXU2ASK1 release-keys"

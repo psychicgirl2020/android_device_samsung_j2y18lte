@@ -17,8 +17,8 @@
 
 set -e
 
-DEVICE=riva
-VENDOR=xiaomi
+DEVICE=j2y18lte
+VENDOR=samsung
 
 # Load extractutils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
