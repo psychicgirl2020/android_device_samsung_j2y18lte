@@ -240,12 +240,10 @@ PRODUCT_PACKAGES += \
     init.qcom.fm.sh \
     init.qcom.post_boot.sh \
 qca6234-service.sh \
-hcidump.sh \
 hsic.control.bt.sh \
 init.qcom.factory.rc \
 init.qcom.sdio.sh \
 init.qti.ims.sh \
-init.baseband.sh \
 
 # RIL
 PRODUCT_PACKAGES += \

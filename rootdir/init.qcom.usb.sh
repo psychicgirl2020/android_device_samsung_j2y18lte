@@ -107,9 +107,8 @@ baseband=`getprop ro.baseband`
 
 echo 1  > /sys/class/android_usb/f_mass_storage/lun/nofua
 usb_config=`getprop persist.sys.usb.config`
-debuggable=`getprop ro.debuggable`
 case "$usb_config" in
-    "" | "adb" | "none") #USB persist config not set, select default configuration
+    "" | "adb") #USB persist config not set, select default configuration
       case "$esoc_link" in
           "PCIe")
               setprop persist.sys.usb.config diag,diag_mdm,serial_cdev,rmnet_qti_ether,mass_storage,adb
@@ -141,30 +140,15 @@ case "$usb_config" in
 	              "msm8937")
 			    case "$soc_id" in
 				    "313" | "320")
-				       #setprop persist.sys.usb.config diag,serial_smd,rmnet_ipa,adb
-                                       if [ -z "$debuggable" -o "$debuggable" = "1" ]; then
-                                           setprop persist.sys.usb.config mtp,adb
-                                       else
-                                           setprop persist.sys.usb.config mtp
-                                       fi
+				       setprop persist.sys.usb.config diag,serial_smd,rmnet_ipa,adb
 				    ;;
 				    *)
-				       #setprop persist.sys.usb.config diag,serial_smd,rmnet_qti_bam,adb
-                                       if [ -z "$debuggable" -o "$debuggable" = "1" ]; then
-                                           setprop persist.sys.usb.config mtp,adb
-                                       else
-                                           setprop persist.sys.usb.config mtp
-                                       fi
+				       setprop persist.sys.usb.config diag,serial_smd,rmnet_qti_bam,adb
 				    ;;
 			    esac
 		      ;;
 	              "msm8952" | "msm8953")
-		          #setprop persist.sys.usb.config diag,serial_smd,rmnet_ipa,adb
-                          if [ -z "$debuggable" -o "$debuggable" = "1" ]; then
-                              setprop persist.sys.usb.config mtp,adb
-                          else
-                              setprop persist.sys.usb.config mtp
-                          fi
+		          setprop persist.sys.usb.config diag,serial_smd,rmnet_ipa,adb
 		      ;;
 	              "msm8998")
 		          setprop persist.sys.usb.config diag,serial_cdev,rmnet_gsi,adb
@@ -202,9 +186,9 @@ case "$target" in
 esac
 
 # check configfs is mounted or not
-if [ -d /config/usb_gadget ]; then
-	setprop sys.usb.configfs 1
-fi
+#if [ -d /config/usb_gadget ]; then
+#	setprop sys.usb.configfs 1
+#fi
 
 #
 # Do target specific things
@@ -228,8 +212,8 @@ case "$target" in
     ;;
     "msm8994" | "msm8992" | "msm8996" | "msm8953")
         echo BAM2BAM_IPA > /sys/class/android_usb/android0/f_rndis_qc/rndis_transports
-        echo 131072 > /sys/module/g_android/parameters/mtp_tx_req_len
-        echo 131072 > /sys/module/g_android/parameters/mtp_rx_req_len
+#        echo 131072 > /sys/module/g_android/parameters/mtp_tx_req_len
+#        echo 131072 > /sys/module/g_android/parameters/mtp_rx_req_len
     ;;
     "msm8937")
 	case "$soc_id" in
@@ -316,7 +300,7 @@ else
 fi
 
 # enable rps cpus on msm8937 target
-setprop sys.usb.rps_mask 0
+setprop sys.usb.rps_mask 2
 case "$soc_id" in
 	"294" | "295")
 		setprop sys.usb.rps_mask 40

@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Copyright (c) 2009-2017, The Linux Foundation. All rights reserved.
+# Copyright (c) 2009-2016, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -82,7 +82,7 @@ start_msm_irqbalance_8939()
 {
 	if [ -f /system/bin/msm_irqbalance ]; then
 		case "$platformid" in
-		    "239" | "293" | "294" | "295" | "304" | "313" | "338")
+		    "239" | "293" | "294" | "295" | "304" | "313")
 			start msm_irqbalance;;
 		esac
 	fi
@@ -259,25 +259,23 @@ case "$target" in
         else
              hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
         fi
-#bug250189 niqingqiang.wt 20170316 modify for disable the navigationBar begin
         case "$soc_id" in
              "294" | "295" | "303" | "307" | "308" | "309" | "313" | "320")
                   case "$hw_platform" in
                        "Surf")
-#                                    setprop qemu.hw.mainkeys 0
+                                    setprop qemu.hw.mainkeys 0
                                     ;;
                        "MTP")
-#                                    setprop qemu.hw.mainkeys 0
+                                    setprop qemu.hw.mainkeys 1
                                     ;;
                        "RCM")
-#                                    setprop qemu.hw.mainkeys 0
+                                    setprop qemu.hw.mainkeys 0
                                     ;;
                   esac
                   ;;
        esac
         ;;
     "msm8953")
-#bug250189 niqingqiang.wt 20170316 modify for disable the navigationBar end
 	start_msm_irqbalance_8939
         if [ -f /sys/devices/soc0/soc_id ]; then
             soc_id=`cat /sys/devices/soc0/soc_id`
@@ -291,13 +289,13 @@ case "$target" in
              hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
         fi
         case "$soc_id" in
-             "293" | "304" | "338" )
+             "293" | "304" )
                   case "$hw_platform" in
                        "Surf")
                                     setprop qemu.hw.mainkeys 0
                                     ;;
                        "MTP")
-                                    setprop qemu.hw.mainkeys 0
+                                    setprop qemu.hw.mainkeys 1
                                     ;;
                        "RCM")
                                     setprop qemu.hw.mainkeys 0
@@ -333,14 +331,8 @@ if [ ! -f /firmware/verinfo/ver_info.txt -o "$prev_version_info" != "$cur_versio
     cp /firmware/verinfo/ver_info.txt /data/misc/radio/ver_info.txt
     chown radio.radio /data/misc/radio/ver_info.txt
 fi
-cp -r /firmware/image/modem_pr/mbn_ota.txt /data/misc/radio/modem_config/mbn_ota.txt
-chown -hR radio.radio /data/misc/radio/modem_config/mbn_ota.txt
-cp -r /firmware/image/modem_pr/mbn_ota1.txt /data/misc/radio/modem_config/mbn_ota1.txt
-chown -hR radio.radio /data/misc/radio/modem_config/mbn_ota1.txt
-cp -r /firmware/image/modem_pr/mbn_ota2.txt /data/misc/radio/modem_config/mbn_ota2.txt
-chown -hR radio.radio /data/misc/radio/modem_config/mbn_ota2.txt
-cp -r /firmware/image/modem_pr/mbn_ota3.txt /data/misc/radio/modem_config/mbn_ota3.txt
-chown -hR radio.radio /data/misc/radio/modem_config/mbn_ota3.txt
+cp /firmware/image/modem_pr/mbn_ota.txt /data/misc/radio/modem_config
+chown radio.radio /data/misc/radio/modem_config/mbn_ota.txt
 echo 1 > /data/misc/radio/copy_complete
 
 #check build variant for printk logging

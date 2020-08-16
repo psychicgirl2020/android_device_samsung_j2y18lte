@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Copyright (c) 2012-2013, 2016-2017 The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2013, 2016, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -55,106 +55,53 @@ function configure_memory_parameters() {
     MemTotal=${MemTotalStr:16:8}
     MemTotalPg=$((MemTotal / 4))
     adjZeroMinFree=18432
-    # Read adj series and set adj threshold for PPR and ALMK.
-    # This is required since adj values change from framework to framework.
-    adj_series=`cat /sys/module/lowmemorykiller/parameters/adj`
-    adj_1="${adj_series#*,}"
-    set_almk_ppr_adj="${adj_1%%,*}"
-    # PPR and ALMK should not act on HOME adj and below.
-    # Normalized ADJ for HOME is 6. Hence multiply by 6
-    # ADJ score represented as INT in LMK params, actual score can be in decimal
-    # Hence add 6 considering a worst case of 0.9 conversion to INT (0.9*6).
-    set_almk_ppr_adj=$(((set_almk_ppr_adj * 6) + 6))
-    echo $set_almk_ppr_adj > /sys/module/lowmemorykiller/parameters/adj_max_shift
-    echo $set_almk_ppr_adj > /sys/module/process_reclaim/parameters/min_score_adj
-    #echo 1 > /sys/module/process_reclaim/parameters/enable_process_reclaim
-    #echo 70 > /sys/module/process_reclaim/parameters/pressure_max
-    #echo 30 > /sys/module/process_reclaim/parameters/swap_opt_eff
-    #echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+
+## Remark: Samsung disables almk configs
+#    # Read adj series and set adj threshold for PPR and ALMK.
+#    # This is required since adj values change from framework to framework.
+#    adj_series=`cat /sys/module/lowmemorykiller/parameters/adj`
+#    adj_1="${adj_series#*,}"
+#    set_almk_ppr_adj="${adj_1%%,*}"
+#    # PPR and ALMK should not act on HOME adj and below.
+#    # Normalized ADJ for HOME is 6. Hence multiply by 6
+#    # ADJ score represented as INT in LMK params, actual score can be in decimal
+#    # Hence add 6 considering a worst case of 0.9 conversion to INT (0.9*6).
+#    set_almk_ppr_adj=$(((set_almk_ppr_adj * 6) + 6))
+#    echo $set_almk_ppr_adj > /sys/module/lowmemorykiller/parameters/adj_max_shift
+#    echo $set_almk_ppr_adj > /sys/module/process_reclaim/parameters/min_score_adj
+    echo 0 > /sys/module/process_reclaim/parameters/enable_process_reclaim
+## Remark: Samsung disables almk configs
+#    echo 70 > /sys/module/process_reclaim/parameters/pressure_max
+#    echo 30 > /sys/module/process_reclaim/parameters/swap_opt_eff
+    echo 0 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
     if [ "$arch_type" == "aarch64" ] && [ $MemTotal -gt 2097152 ]; then
-        #echo 10 > /sys/module/process_reclaim/parameters/pressure_min
-        #echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
-        echo "18432,23040,27648,32256,55296,80640" > /sys/module/lowmemorykiller/parameters/minfree
+        echo 10 > /sys/module/process_reclaim/parameters/pressure_min
+        echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
+#        echo "18432,23040,27648,32256,55296,80640" > /sys/module/lowmemorykiller/parameters/minfree
         echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
         adjZeroMinFree=18432
     elif [ "$arch_type" == "aarch64" ] && [ $MemTotal -gt 1048576 ]; then
-        #echo 10 > /sys/module/process_reclaim/parameters/pressure_min
-        #echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
-        echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
+        echo 10 > /sys/module/process_reclaim/parameters/pressure_min
+        echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
+#        echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
         echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
         adjZeroMinFree=14746
     elif [ "$arch_type" == "aarch64" ]; then
-        #echo 50 > /sys/module/process_reclaim/parameters/pressure_min
-        #echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
-        echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
+        echo 50 > /sys/module/process_reclaim/parameters/pressure_min
+        echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
+#        echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
         echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
         adjZeroMinFree=14746
     else
-        #echo 50 > /sys/module/process_reclaim/parameters/pressure_min
-        #echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
-        echo "15360,19200,23040,26880,34415,43737" > /sys/module/lowmemorykiller/parameters/minfree
+        echo 50 > /sys/module/process_reclaim/parameters/pressure_min
+        echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
+#        echo "15360,19200,23040,26880,34415,43737" > /sys/module/lowmemorykiller/parameters/minfree
         echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
         adjZeroMinFree=15360
     fi
     clearPercent=$((((adjZeroMinFree * 100) / MemTotalPg) + 1))
     echo $clearPercent > /sys/module/zcache/parameters/clear_percent
     echo 30 >  /sys/module/zcache/parameters/max_pool_percent
-
-    # Zram disk - 1500MB size
-    zram_enable=`getprop ro.config.zram`
-    if [ "$zram_enable" == "true" ]; then
-        echo 1636870912 > /sys/block/zram0/disksize
-        mkswap /dev/block/zram0
-        swapon /dev/block/zram0 -p 32758
-    fi
-
-    SWAP_ENABLE_THRESHOLD=1048576
-    swap_enable=`getprop ro.config.swap`
-
-    if [ -f /sys/devices/soc0/soc_id ]; then
-        soc_id=`cat /sys/devices/soc0/soc_id`
-    else
-        soc_id=`cat /sys/devices/system/soc/soc0/id`
-    fi
-
-    # Enable swap initially only for 1 GB targets
-    if [ "$MemTotal" -le "$SWAP_ENABLE_THRESHOLD" ] && [ "$swap_enable" == "true" ]; then
-        # Static swiftness
-        echo 1 > /proc/sys/vm/swap_ratio_enable
-        echo 70 > /proc/sys/vm/swap_ratio
-
-        # Swap disk - 200MB size
-        if [ ! -f /data/system/swap/swapfile ]; then
-            dd if=/dev/zero of=/data/system/swap/swapfile bs=1m count=200
-        fi
-        mkswap /data/system/swap/swapfile
-        swapon /data/system/swap/swapfile -p 32758
-    fi
-}
-
-function set_rt_bandwidth()
-{
-        # The default RT bandwidth setttings for bg_non_interactive cgroup
-        # is 10 msec/1 sec. There should not be any active RT tasks in this
-        # cgroup, so the limited bandwidth is not a concern. But the tasks
-        # in this cgroup can be boosted to RT priority when they acquire a
-        # RT mutex. The RT throttling is exempted for boosted tasks, but when
-        # a kernel debug feature is turned on, we hit panic. We can opt out
-        # of  panic when a RT runqueue has boosted tasks, but that would mean
-        # a task acquiring a RT mutex can run for a very long time without
-        # getting noticed. Instead set the bg_non_interactive cgroup RT
-        # bandwidth settings to same as the root cgroup settings.
-
-        if [ ! -f /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us ]; then
-              return
-        fi
-
-        if [ ! -f /dev/cpuctl/cpu.rt_runtime_us ]; then
-              return
-        fi
-
-        rt_runtime=`cat /dev/cpuctl/cpu.rt_runtime_us`
-        echo $rt_runtime > /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us
 }
 
 case "$target" in
@@ -1130,8 +1077,6 @@ esac
 case "$target" in
     "msm8953")
 
-        set_rt_bandwidth
-
         if [ -f /sys/devices/soc0/soc_id ]; then
             soc_id=`cat /sys/devices/soc0/soc_id`
         else
@@ -1145,7 +1090,7 @@ case "$target" in
         fi
 
         case "$soc_id" in
-            "293" | "304" | "338" )
+            "293" | "304" )
 
                 # Start Host based Touch processing
                 case "$hw_platform" in
@@ -1153,10 +1098,9 @@ case "$target" in
                         #if this directory is present, it means that a
                         #1200p panel is connected to the device.
                         dir="/sys/bus/i2c/devices/3-0038"
-#Bug159415 , zhangsan.libin, DEL, 2016.3.29
-#                        if [ ! -d "$dir" ]; then
-                             # start hbtp
-#                        fi
+                        if [ ! -d "$dir" ]; then
+                              start hbtp
+                        fi
                         ;;
                 esac
 
@@ -1296,6 +1240,15 @@ case "$target" in
                 echo 39000 > /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
                 echo 40000 > /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
                 echo 652800 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+				
+				#change governor node permission
+                chown radio.system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+                chmod 660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+
+                #lpm disable freq
+                chown system.system /sys/devices/system/cpu/cpufreq/interactive/lpm_disable_freq
+                chmod 660 /sys/devices/system/cpu/cpufreq/interactive/lpm_disable_freq
+                echo 1036800 > /sys/devices/system/cpu/cpufreq/interactive/lpm_disable_freq
 
                 # re-enable thermal & BCL core_control now
                 echo 1 > /sys/module/msm_thermal/core_control/enabled
@@ -1339,6 +1292,47 @@ case "$target" in
                 echo 200000 > /proc/sys/kernel/sched_freq_inc_notify
                 echo 200000 > /proc/sys/kernel/sched_freq_dec_notify
 
+                # Change power debug parameters permission
+                chown radio.system /sys/module/qpnp_power_on/parameters/reset_enabled
+                chown radio.system /sys/module/qpnp_power_on/parameters/wake_enabled
+                chown radio.system /sys/module/lpm_levels/parameters/secdebug
+                chmod 664 /sys/module/qpnp_power_on/parameters/reset_enabled
+                chmod 664 /sys/module/qpnp_power_on/parameters/wake_enabled
+                chmod 664 /sys/module/lpm_levels/parameters/secdebug
+                chown radio.system /sys/power/volkey_wakeup
+                chmod 0660 /sys/power/volkey_wakeup
+
+                # Change permission about Bus node
+                chown radio.system /sys/class/devfreq/soc:qcom,cpubw/available_frequencies
+                chown radio.system /sys/class/devfreq/soc:qcom,cpubw/available_governors
+                chown radio.system /sys/class/devfreq/soc:qcom,cpubw/governor
+                chown radio.system /sys/class/devfreq/soc:qcom,cpubw/max_freq
+                chown radio.system /sys/class/devfreq/soc:qcom,cpubw/min_freq
+                chmod 664 /sys/class/devfreq/soc:qcom,cpubw/available_frequencies
+                chmod 664 /sys/class/devfreq/soc:qcom,cpubw/available_governors
+                chmod 664 /sys/class/devfreq/soc:qcom,cpubw/governor
+                chmod 664 /sys/class/devfreq/soc:qcom,cpubw/max_freq
+                chmod 664 /sys/class/devfreq/soc:qcom,cpubw/min_freq
+
+                # Volume down key(connect to PMIC RESIN) wakeup enable/disable
+                echo 0 > /sys/power/volkey_wakeup
+
+                #control daemon for xosd
+                factory_mode=`getprop ro.factory.factory_binary`
+                if [ "$factory_mode" != "factory" ]; then
+                    jig_mode=`cat /sys/class/switch/uart3/state`
+                    case "$jig_mode" in
+                        1)
+                            echo "PM: JIG UART" > /dev/kmsg
+                        ;;
+                        0)
+                            echo "PM: stop at_distributor" > /dev/kmsg
+                            stop at_distributor
+                            stop diag_uart_log
+                        ;;
+                    esac
+                fi
+
                 # Set Memory parameters
                 configure_memory_parameters
 	;;
@@ -1348,8 +1342,6 @@ esac
 
 case "$target" in
     "msm8937")
-
-        set_rt_bandwidth
 
         if [ -f /sys/devices/soc0/soc_id ]; then
             soc_id=`cat /sys/devices/soc0/soc_id`
@@ -1369,7 +1361,7 @@ case "$target" in
                   # Start Host based Touch processing
                   case "$hw_platform" in
                     "MTP" | "Surf" | "RCM" )
-                       # start hbtp
+                        start hbtp
                         ;;
                   esac
                 # Apply Scheduler and Governor settings for 8917 / 8920
@@ -1379,6 +1371,7 @@ case "$target" in
                 echo 3 > /proc/sys/kernel/sched_ravg_hist_size
                 echo 20000000 > /proc/sys/kernel/sched_ravg_window
                 echo 1 > /proc/sys/kernel/sched_restrict_tasks_spread
+                echo 1 > /proc/sys/kernel/sched_wake_to_idle
 
                 #disable sched_boost in 8917
                 echo 0 > /proc/sys/kernel/sched_boost
@@ -1441,6 +1434,9 @@ case "$target" in
                 echo 40000 > /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
                 echo 960000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
+                # apply lpm_disable_freq
+                echo 1094400 > /sys/devices/system/cpu/cpufreq/interactive/lpm_disable_freq
+
                 # re-enable thermal core_control now
                 echo 1 > /sys/module/msm_thermal/core_control/enabled
 
@@ -1462,6 +1458,20 @@ case "$target" in
                 echo 50000 > /proc/sys/kernel/sched_freq_inc_notify
                 echo 50000 > /proc/sys/kernel/sched_freq_dec_notify
 
+                # Change power debug parameters permission
+                chown radio.system /sys/module/qpnp_power_on/parameters/reset_enabled
+                chown radio.system /sys/module/qpnp_power_on/parameters/wake_enabled
+                chown radio.system /sys/module/lpm_levels/parameters/secdebug
+                chmod 664 /sys/module/qpnp_power_on/parameters/reset_enabled
+                chmod 664 /sys/module/qpnp_power_on/parameters/wake_enabled
+                chmod 664 /sys/module/lpm_levels/parameters/secdebug
+                chown radio.system /sys/power/volkey_wakeup
+                chmod 0660 /sys/power/volkey_wakeup
+
+                #change governor node permission
+                chown radio.system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+                chmod 664 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+
                 # Set rps mask
                 echo 2 > /sys/class/net/rmnet0/queues/rx-0/rps_cpus
 
@@ -1469,6 +1479,26 @@ case "$target" in
                 echo 1 > /sys/module/lpm_levels/lpm_workarounds/dynamic_clock_gating
                 # Enable timer migration to little cluster
                 echo 1 > /proc/sys/kernel/power_aware_timer_migration
+
+                # Volume down key(connect to PMIC RESIN) wakeup enable/disable
+                echo 0 > /sys/power/volkey_wakeup
+
+                #control daemon for xosd
+                factory_mode=`getprop ro.factory.factory_binary`
+                if [ "$factory_mode" != "factory" ]; then
+                        jig_mode=`cat /sys/class/switch/uart3/state`
+                        case "$jig_mode" in
+                            1)
+                                echo "PM: JIG UART" > /dev/kmsg
+                            ;;
+                            0)
+                                echo "PM: stop at_distributor" > /dev/kmsg
+                                stop at_distributor
+                                stop diag_uart_log
+                            ;;
+                        esac
+                fi
+
                 # Set Memory parameters
                 configure_memory_parameters
                 ;;
@@ -1482,7 +1512,7 @@ case "$target" in
                   # Start Host based Touch processing
                   case "$hw_platform" in
                     "MTP" | "Surf" | "RCM" )
-                        #start hbtp #Req-bug 164399,libin.wt, MODIFY , 20160413,close hbtp service
+                        start hbtp
                         ;;
                   esac
 
@@ -1583,13 +1613,6 @@ case "$target" in
                 echo N > /sys/module/lpm_levels/system/perf/perf-l2-gdhs/idle_enabled
                 echo N > /sys/module/lpm_levels/system/perf/perf-l2-gdhs/suspend_enabled
 
-                # Disable E3 low power modes
-                echo N > /sys/module/lpm_levels/system/system-pc/idle_enabled
-
-                # Disable CCI WFI and CCI RETENTION Low power modes
-                echo N > /sys/module/lpm_levels/system/system-wfi/idle_enabled
-                echo N > /sys/module/lpm_levels/system/system-ret/idle_enabled
-
                 # Bring up all cores online
                 echo 1 > /sys/devices/system/cpu/cpu1/online
                 echo 1 > /sys/devices/system/cpu/cpu2/online
@@ -1598,11 +1621,6 @@ case "$target" in
                 echo 1 > /sys/devices/system/cpu/cpu5/online
                 echo 1 > /sys/devices/system/cpu/cpu6/online
                 echo 1 > /sys/devices/system/cpu/cpu7/online
-                # Disable L2-GDHS low power modes
-                echo N > /sys/module/lpm_levels/system/pwr/pwr-l2-gdhs/idle_enabled
-                echo N > /sys/module/lpm_levels/system/pwr/pwr-l2-gdhs/suspend_enabled
-                echo N > /sys/module/lpm_levels/system/perf/perf-l2-gdhs/idle_enabled
-                echo N > /sys/module/lpm_levels/system/perf/perf-l2-gdhs/suspend_enabled
 
                 # Enable low power modes
                 echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
@@ -1620,7 +1638,6 @@ case "$target" in
                 echo 50000 > /proc/sys/kernel/sched_freq_dec_notify
 
                 # Enable core control
-                insmod /system/lib/modules/core_ctl.ko
                 echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
                 echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
                 echo 68 > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
@@ -1932,8 +1949,6 @@ esac
 
 case "$target" in
     "msm8996")
-        set_rt_bandwidth
-
         # disable thermal bcl hotplug to switch governor
         echo 0 > /sys/module/msm_thermal/core_control/enabled
         echo -n disable > /sys/devices/soc/soc:qcom,bcl/mode
@@ -2047,8 +2062,6 @@ esac
 
 case "$target" in
     "msm8998")
-
-        set_rt_bandwidth
 
 	echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
 	echo 60 > /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres
@@ -2178,8 +2191,6 @@ esac
 case "$target" in
     "msm8909")
 
-        set_rt_bandwidth
-
         if [ -f /sys/devices/soc0/soc_id ]; then
            soc_id=`cat /sys/devices/soc0/soc_id`
         else
@@ -2282,8 +2293,6 @@ case "$target" in
         echo 128 > /sys/block/dm-0/queue/read_ahead_kb
         echo 128 > /sys/block/dm-1/queue/read_ahead_kb
         setprop sys.post_boot.parsed 1
-		rm /data/system/perfd/default_values
-        start perfd
         start gamed
     ;;
     "msm8974")
@@ -2345,11 +2354,11 @@ case "$target" in
 esac
 
 # Install AdrenoTest.apk if not already installed
-if [ -f /data/prebuilt/AdrenoTest.apk ]; then
-    if [ ! -d /data/data/com.qualcomm.adrenotest ]; then
-        pm install /data/prebuilt/AdrenoTest.apk
-    fi
-fi
+#if [ -f /data/prebuilt/AdrenoTest.apk ]; then
+#    if [ ! -d /data/data/com.qualcomm.adrenotest ]; then
+#        pm install /data/prebuilt/AdrenoTest.apk
+#    fi
+#fi
 
 # Install SWE_Browser.apk if not already installed
 if [ -f /data/prebuilt/SWE_AndroidBrowser.apk ]; then
@@ -2394,15 +2403,3 @@ case "$console_config" in
         echo "Enable console config to $console_config"
         ;;
 esac
-
-# Init.d support
-SU="$(ls /su/bin/su 2>/dev/null || ls /system/xbin/su) -c"
-mount -o rw,remount /system && SU="" || eval "$SU mount -o rw,remount /system"
-eval "$SU chmod 777 /system/etc/init.d"
-eval "$SU chmod 777 /system/etc/init.d/*"
-eval "$SU mount -o ro,remount /system"
-ls /system/etc/init.d/* 2>/dev/null | while read xfile ; do eval "$SU /system/bin/sh $xfile" ; done
-
-#LED
-chown system:system /sys/class/leds/*/brightness
-chown system:system /sys/class/leds/*/blink
