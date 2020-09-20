@@ -158,9 +158,6 @@ TARGET_INIT_VENDOR_LIB := libinit_riva
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc/
 TARGET_RECOVERY_DEVICE_MODULES := libinit_riva
 
-# Tap2Wake
-TARGET_TAP_TO_WAKE_NODE := "/proc/gesture/onoff"
-
 # Keymaster
 TARGET_PROVIDES_KEYMASTER := true
 
