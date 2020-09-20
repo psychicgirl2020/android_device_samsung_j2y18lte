@@ -107,7 +107,8 @@ BOARD_GLOBAL_CFLAGS += -DBATTERY_REAL_INFO
 BOARD_USES_CYANOGEN_HARDWARE := true
 BOARD_HARDWARE_CLASS += \
     hardware/cyanogen/cmhw \
-    device/samsung/j2y18lte/cmhw
+    device/samsung/j2y18lte/cmhw \
+    hardware/samsung/cmhw
 
 # CNE / DPM
 BOARD_USES_QCNE := true
