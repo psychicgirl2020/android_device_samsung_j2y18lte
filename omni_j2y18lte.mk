@@ -35,8 +35,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
     bionic/libc/zoneinfo/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := j4primelte
-PRODUCT_NAME := omni_j4primelte
+PRODUCT_DEVICE := j2y18lte
+PRODUCT_NAME := omni_j2y18lte
 PRODUCT_BRAND := Samsung
-PRODUCT_MODEL := Samsung Galaxy j4+
+PRODUCT_MODEL := Galaxy J2 Pro 2018
 PRODUCT_MANUFACTURER := Samsung

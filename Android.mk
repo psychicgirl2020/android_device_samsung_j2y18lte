@@ -16,7 +16,7 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_DEVICE), j4primelte)
+ifeq ($(TARGET_DEVICE), j2y18lte)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
 

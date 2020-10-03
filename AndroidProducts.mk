@@ -15,4 +15,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/omni_j4primelte.mk
+	$(LOCAL_DIR)/omni_j2y18lte.mk

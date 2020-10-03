@@ -14,5 +14,5 @@
 # limitations under the License.
 #
 
-add_lunch_combo omni_j4primelte-userdebug
-add_lunch_combo omni_j4primelte-eng
+add_lunch_combo omni_j2y18lte-userdebug
+add_lunch_combo omni_j2y18lte-eng
