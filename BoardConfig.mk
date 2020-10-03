@@ -24,8 +24,6 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3514826752
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 
-PRODUCT_EXTRA_VNDK_VERSIONS := 27 28
-
 # Inherit from common msm8917-common
 -include device/samsung/msm8917-common/BoardConfigCommon.mk
 
