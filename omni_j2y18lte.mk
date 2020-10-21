@@ -11,11 +11,9 @@ PRODUCT_PACKAGES += \
 	charger_res_images \
 	charger
 
-PRODUCT_COPY_FILES += device/samsung/j2y18lte/kernel:kernel
-
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := j2y18lte
 PRODUCT_NAME := omni_j2y18lte
-PRODUCT_MODEL := SM-J250G
+PRODUCT_MODEL := SM-J250F
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
