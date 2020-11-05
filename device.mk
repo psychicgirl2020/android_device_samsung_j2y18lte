@@ -218,12 +218,42 @@ PRODUCT_PACKAGES += \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    fstab.qcom \
-    init.qcom.rc \
-    init.qcom.sh \
-    init.qcom.usb.rc \
-    init.qcom.usb.sh \
-    ueventd.qcom.rc
+      fstab.qcom
+      init.carrier.rc
+      init.class_main.sh
+      init.environ.rc
+      init.mdm.sh
+      init.msm.usb.configfs.rc
+      init.qcom.class_core.sh
+      init.qcom.early_boot.sh
+      init.qcom.factory.rc
+      init.qcom.rc
+      init.qcom.sensors.sh
+      init.qcom.sh
+      init.qcom.syspart_fixup.sh
+      init.qcom.usb.rc
+      init.qcom.usb.sh
+      init.rilchip.rc
+      init.rilepdg.rc
+      init.target.rc
+      init.usb.configfs.rc
+      init.usb.rc
+      init.zygote32.rc
+      ueventd.qcom.rc
+      hsic.control.bt.sh
+      init.ath3k.bt.sh
+      init.crda.sh
+      init.qcom.audio.sh
+      init.qcom.bt.sh
+      init.qcom.coex.sh
+      init.qcom.efs.sync.sh
+      init.qcom.fm.sh
+      init.qcom.modem_links.sh
+      init.qcom.post_boot.sh
+      init.qcom.sdio.sh
+      init.qcom.uicc.sh
+      init.qcom.wifi.sh
+      init.qti.ims.sh
 
 PRODUCT_PACKAGES += \
     init.qcom.bt.sh \
