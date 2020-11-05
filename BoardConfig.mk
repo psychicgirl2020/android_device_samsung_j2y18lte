@@ -106,6 +106,7 @@ BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BOARD_USES_CYANOGEN_HARDWARE := true
 BOARD_HARDWARE_CLASS += \
     hardware/cyanogen/cmhw \
+    hardware/samsung/cmhw \
     device/samsung/j2y18lte/cmhw
 
 # CNE / DPM
@@ -194,6 +195,7 @@ TARGET_USE_SDCLANG := true
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 ENABLE_VENDOR_RIL_SERVICE := true
+PROTOBUF_SUPPORTED := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
