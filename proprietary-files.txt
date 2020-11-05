@@ -21,6 +21,11 @@ vendor/lib/rfsa/adsp/libFastRPC_UTF_Forward_skel.so
 vendor/lib/libalarmservice_jni.so
 
 # Audio
+lib/hw/audio.primary.msm8937.so
+etc/drc/drc_cfg_5.1.txt
+etc/drc/drc_cfg_AZ.txt
+etc/surround_sound_3mic/surround_sound_rec_5.1.cfg
+etc/surround_sound_3mic/surround_sound_rec_AZ.cfg
 vendor/bin/audioflacapp
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
@@ -39,6 +44,8 @@ vendor/lib/soundfx/libqcreverb.so
 vendor/lib/soundfx/libqcvirt.so
 
 # Bluetooth
+bin/btnvtool
+lib/libbt-vendor.so
 vendor/etc/qti-logkit/scenarios/bluetooth.png
 vendor/lib/libbtnv.so
 
@@ -55,7 +62,13 @@ vendor/lib/libwms.so
 vendor/lib/libxml.so
 
 # Camera
+bin/mm-qcamera-app
+bin/mm-qcamera-daemon
+lib/libmm-qcamera.so
+lib/libmmcamera_interface.so
+lib/libmmjpeg_interface.so
 lib/libchromaflash.so
+lib/hw/camera.msm8937.so
 vendor/lib/libchromaflash.so
 vendor/lib/libflash_pmic.so
 vendor/lib/libjpegdhw.so
@@ -497,6 +510,8 @@ vendor/lib/libmmcamera_vpu_module.so
 vendor/lib/libmmcamera_zc535_eeprom.so
 
 # DRM
+bin/qseecomd
+bin/rmt_storage
 vendor/lib/libbase64.so
 vendor/lib/libcppf.so
 vendor/lib/libdrmfs.so
@@ -557,6 +572,22 @@ etc/firmware/a530_pfp.fw
 etc/firmware/a530_pm4.fw
 etc/firmware/a540_gpmu.fw2
 etc/firmware/DE.o.msm8937
+etc/firmware/cpp_firmware_v1_10_0.fw
+etc/firmware/cpp_firmware_v1_1_1.fw
+etc/firmware/cpp_firmware_v1_1_6.fw
+etc/firmware/cpp_firmware_v1_2_0.fw
+etx/firmware/cpp_firmware_v1_4_0.fw
+etc/firmware/cpp_firmware_v1_5_0.fw
+etc/firmware/cpp_firmware_v1_5_2.fw
+etc/firmware/cpp_firmware_v1_6_0.fw
+etc/firmware/cpp_firmware_v1_8_0.fw
+etc/firmware/hifi_6402.img
+etc/firmware/hifi_6402_2spk.img
+etc/firmware/hifi_6403.img
+etc/firmware/hifi_6403_tfa.img
+etc/firmware/isp_dts.img
+etc/firmware/can_nxp/tfa98xx_aac.cnt
+etc/firmware/can_nxp/tfa98xx_goer.cnt
 etc/firmware/hbtp/hbtpcfg.dat
 etc/firmware/hbtp/hbtpcfg_8917.dat
 etc/firmware/hbtp/qtc800s_dsp.bin
@@ -569,11 +600,17 @@ etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini
 etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
 # GPS
+etc/cacert_location.pem
 etc/permissions/com.qti.location.sdk.xml
 etc/permissions/com.qualcomm.location.xml
 etc/permissions/izat.xt.srv.xml
 -framework/com.qti.location.sdk.jar
 -framework/izat.xt.srv.jar
+bin/hci_qcomm_init
+bin/loc_launcher
+bin/lowi_server
+lib/libloc_api_v02.so
+lib/libloc_ds_api.so
 vendor/lib/libdataitems.so
 vendor/lib/libDRPlugin.so
 vendor/lib/libdrplugin_client.so
@@ -642,6 +679,25 @@ vendor/lib/libadpcmdec.so
 vendor/lib/liblistensoundmodel2.so
 
 # Media
+bin/mm-vidc-omx-test
+bin/msm_irqbalance
+lib/libOmxAacEnc.so
+lib/libOmxAmrEnc.so
+lib/libOmxCore.so
+lib/libOmxEvrcEnc.so
+lib/libOmxQcelp13Enc.so
+lib/libOmxSwVdec.so
+lib/libOmxSwVencMpeg4.so
+lib/libOmxVdec.so
+lib/libOmxVenc.so
+lib/libOmxVpp.so
+lib/libstagefright_omx.so
+lib/libmm-omxcore.so
+lib/libmm-qomxcore.so
+lib/libsigchain.so
+lib/libstagefright.so
+lib/libstagefright_soft_flacdec.so
+lib/libvpplibrary.so
 vendor/lib/libAlacSwDec.so
 vendor/lib/libApeSwDec.so
 vendor/lib/libFileMux.so
@@ -700,10 +756,18 @@ vendor/lib/libqmi_encdec.so
 
 # Radio
 -app/embms/embms.apk
+etc/data/dsi_config.xml
+etc/data/netmgr_config.xml
+etc/data/qmi_config.xml
 etc/permissions/embms.xml
 etc/permissions/qcrilhook.xml
 -framework/embmslibrary.jar
 -framework/qcrilhook.jar
+bin/netmgrd
+bin/pm-proxy
+bin/pm-service
+bin/port-bridge
+vendor/lib/libril.so
 vendor/lib/libconfigdb.so
 vendor/lib/libdsi_netctrl.so
 vendor/lib/liblqe.so
@@ -715,6 +779,7 @@ vendor/lib/libsystem_health_mon.so
 
 # Radio-IMS
 -app/ImsSettings/ImsSettings.apk
+bin/imscmservice
 -vendor/framework/qti-vzw-ims-internal.jar
 vendor/lib/lib-ims-rcscmjni.so
 vendor/lib/lib-imsrcs.so
@@ -735,6 +800,7 @@ vendor/lib/libsubsystem_control.so
 vendor/lib/libSamsungPkcs11Wrapper.so
 
 # Sensors
+bin/sensors.qcom
 vendor/lib/libsensor1.so
 vendor/lib/libsensor_reg.so
 vendor/lib/sensors.ssc.so
@@ -763,8 +829,18 @@ vendor/lib/libwfduibcsink.so
 vendor/lib/libwfduibcsinkinterface.so
 
 # WiFi
+bin/wcnss_service
+bin/xtwifi-client
+bin/xtwifi-inet-agent
 
 # Misc
+bin/iop
+bin/irsc_util
+bin/radish
+bin/tftp_server
+bin/time_daemon
+etc/xtra_root_cert.pem
+lib/hw/lights.msm8937.so
 vendor/bin/chamomile_provision
 vendor/bin/hbtp_daemon
 vendor/bin/LKCore
