@@ -255,9 +255,6 @@ PRODUCT_PACKAGES += \
       init.qcom.wifi.sh
       init.qti.ims.sh
 
-PRODUCT_PACKAGES += \
-    init.qcom.bt.sh \
-
 # RIL
 PRODUCT_PACKAGES += \
     librmnetctl \
