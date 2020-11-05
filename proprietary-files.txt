@@ -511,6 +511,12 @@ vendor/lib/libmmcamera_zc535_eeprom.so
 
 # DRM
 bin/qseecomd
+bin/qseecom_sample_client
+bin/secure_ui_sample_client
+bin/sigma_dut
+bin/ssr_diag
+bin/ssr_setup
+bin/subsystem_ramdump
 bin/rmt_storage
 vendor/lib/libbase64.so
 vendor/lib/libcppf.so
@@ -551,6 +557,9 @@ vendor/lib/libsdmextension.so
 
 # FM
 bin/fm_qsoc_patches
+bin/fmconfig
+bin/fmfactorytest
+bin/fmfactorytestserver
 
 # Firmware
 etc/firmware/a225p5_pm4.fw
@@ -766,6 +775,8 @@ etc/permissions/qcrilhook.xml
 bin/netmgrd
 bin/pm-proxy
 bin/pm-service
+bin/pm_proxy_helper
+bin/ptt_socket_app
 bin/port-bridge
 vendor/lib/libril.so
 vendor/lib/libconfigdb.so
@@ -832,8 +843,27 @@ vendor/lib/libwfduibcsinkinterface.so
 bin/wcnss_service
 bin/xtwifi-client
 bin/xtwifi-inet-agent
+bin/wlandutservice
 
 # Misc
+bin/ATFWD-daemon
+bin/DR_AP_Service
+bin/PktRspTest
+bin/StoreKeybox
+bin/athdiag
+bin/cplay
+bin/test_diag
+bin/vendor_cmd_tool
+bin/wvkprov
+bin/diag_callback_sample
+bin/diag_dci_sample
+bin/diag_klog
+bin/diag_mdlog
+bin/diag_socket_log
+bin/diag_uart_log
+bin/e_loop
+bin/mcDriverDaemon
+bin/pktlogconf
 bin/iop
 bin/irsc_util
 bin/radish
