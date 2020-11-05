@@ -219,6 +219,7 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
       fstab.qcom \
+      init.baseband.sh \
       init.carrier.rc \
       init.class_main.sh \
       init.environ.rc \
