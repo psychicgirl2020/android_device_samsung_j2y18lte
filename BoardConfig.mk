@@ -35,7 +35,7 @@ BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_PAGESIZE :=  2048
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
-TARGET_KERNEL_CONFIG := j2y18lte_defconfig
+TARGET_KERNEL_CONFIG := j2y18lte_caf_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/j2y18lte
 
 # ANT
