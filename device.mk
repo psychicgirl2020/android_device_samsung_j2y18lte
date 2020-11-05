@@ -301,4 +301,4 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 	ro.allow.mock.location=1 \
 	ro.debuggable=1 \
 	ro.adb.secure=0 \
-        ro.oem_unlock_supported=1
+    ro.oem_unlock_supported=1
