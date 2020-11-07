@@ -151,12 +151,3 @@ ro.mdtp.package_name2=com.qualcomm.qti.securemsm.mdtp.MdtpDemo
 ro.build.version.sem=2502
 ro.build.version.sep=80500
 config.disable_consumerir=true
-wifi.tethering.interface=wlan0
-
-# Camera
-persist.sys.chgdisabled=0
-persist.camera.is_type=1
-persist.camera.gyro.android=1
-ro.def.camera.video.quality=100
-ro.def.camera.bright.main=middle
-camera2.portability.force_api=1
