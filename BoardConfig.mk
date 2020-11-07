@@ -102,7 +102,6 @@ BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BOARD_USES_CYANOGEN_HARDWARE := true
 BOARD_HARDWARE_CLASS += \
     hardware/cyanogen/cmhw \
-    hardware/samsung/cmhw \
     device/samsung/j2y18lte/cmhw
 
 # CNE / DPM
